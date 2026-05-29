@@ -1,0 +1,26 @@
+{
+  "id": "aoa-skills",
+  "name": "AoA Commander Skills",
+  "version": "0.1.0",
+  "description": "Official Commander skills and instruction files for Army of Agents. Provides structured workflows for sprint planning, team design, idea interrogation, investigation, spec authoring, and discussion facilitation.",
+  "author": "MeteoriteLabs",
+  "license": "MIT",
+  "sourceUrl": "https://github.com/MeteoriteLabs/AoA-Skills",
+  "category": "commander",
+  "tags": ["official"],
+  "skills": "./catalog/skills.json",
+  "commander": {
+    "instructionFiles": [
+      "./commander/AGENTS.md",
+      "./commander/SOUL.md",
+      "./commander/TOOLS.md",
+      "./commander/HEARTBEAT.md"
+    ]
+  },
+  "modelOverlays": {
+    "claude_local": "./model-overlays/claude.md",
+    "codex_local": "./model-overlays/codex.md",
+    "opencode_local": "./model-overlays/opencode.md",
+    "gemini_local": "./model-overlays/gemini.md"
+  }
+}

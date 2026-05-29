@@ -1,0 +1,56 @@
+#!/bin/bash
+# AoA Skills — session-start hook
+# Detects adapter type and injects the matching model overlay + AoA context
+# into the session as additionalContext.
+#
+# Adapter detection (env vars):
+#   claude_local   → CLAUDE_PLUGIN_ROOT or CLAUDE_CODE_SESSION_ID
+#   codex_local    → OPENAI_API_KEY + CODEX_* vars
+#   opencode_local → OPENCODE_* vars
+#   gemini_local   → GEMINI_* vars or GOOGLE_API_KEY
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Detect adapter
+ADAPTER="unknown"
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] || [ -n "${CLAUDE_CODE_SESSION_ID:-}" ]; then
+  ADAPTER="claude_local"
+elif [ -n "${CODEX_HOME:-}" ] || [ -n "${CODEX_SESSION:-}" ]; then
+  ADAPTER="codex_local"
+elif [ -n "${OPENCODE_HOME:-}" ] || [ -n "${OPENCODE_SESSION:-}" ]; then
+  ADAPTER="opencode_local"
+elif [ -n "${GEMINI_API_KEY:-}" ] || [ -n "${GOOGLE_API_KEY:-}" ] || [ -n "${GEMINI_SESSION:-}" ]; then
+  ADAPTER="gemini_local"
+fi
+
+# Load model overlay for the detected adapter
+OVERLAY_FILE="$ROOT_DIR/model-overlays/${ADAPTER%.md}.md"
+if [ "$ADAPTER" != "unknown" ] && [ -f "$OVERLAY_FILE" ]; then
+  OVERLAY_CONTENT=$(cat "$OVERLAY_FILE")
+else
+  OVERLAY_CONTENT=""
+fi
+
+# Load AoA tool reference (always injected)
+TOOLS_CONTENT=""
+if [ -f "$ROOT_DIR/commander/TOOLS.md" ]; then
+  TOOLS_CONTENT=$(cat "$ROOT_DIR/commander/TOOLS.md")
+fi
+
+# Emit additionalContext for the session
+# The hook runner captures stdout and injects it as session context
+if [ -n "$OVERLAY_CONTENT" ]; then
+  echo "<!-- AoA Commander Overlay (${ADAPTER}) -->"
+  echo "$OVERLAY_CONTENT"
+  echo ""
+  echo "---"
+  echo ""
+fi
+
+if [ -n "$TOOLS_CONTENT" ]; then
+  echo "<!-- AoA Commander Tools Reference -->"
+  echo "$TOOLS_CONTENT"
+fi

@@ -1,0 +1,12 @@
+{
+  "name": "aoa-skills",
+  "version": "0.1.0",
+  "description": "Commander skills and instruction files for Army of Agents. Provides structured workflows and AoA tool reference for Gemini CLI sessions.",
+  "contextFiles": [
+    "./commander/TOOLS.md",
+    "./commander/AGENTS.md",
+    "./model-overlays/gemini.md"
+  ],
+  "skills": "./skills/",
+  "sessionHook": "./hooks/session-start"
+}

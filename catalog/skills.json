@@ -1,0 +1,70 @@
+{
+  "_comment": "Machine-readable skill catalog for aoa-marketplace aggregation. Each entry maps a skill key to its source file in this repo.",
+  "version": "0.1.0",
+  "skills": [
+    {
+      "id": "skill:aoa-curated/aoa-brainstorm",
+      "name": "Brainstorm",
+      "description": "YC-style idea interrogation before building. Surfaces assumptions, sharpens scope, and decides whether to build.",
+      "file": "skills/brainstorm.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-identity-setup",
+      "name": "Identity Setup",
+      "description": "Guide a new company through setting their vision, mission, and identity in AoA.",
+      "file": "skills/identity-setup.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-sprint-planning",
+      "name": "Sprint Planning",
+      "description": "Break a goal or idea into structured tasks with dependencies and agent assignments.",
+      "file": "skills/sprint-planning.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-team-design",
+      "name": "Team Design",
+      "description": "Design the right agent team for a company or project. Recommends agent roles, adapter types, and concurrency.",
+      "file": "skills/team-design.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-office-hours",
+      "name": "Office Hours",
+      "description": "Design thinking session for side projects, product features, or strategic bets. Six forcing questions that expose demand and user reality.",
+      "file": "skills/office-hours.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-investigate",
+      "name": "Investigate",
+      "description": "Root-cause investigation for agent failures, blocked tasks, and unexpected outputs. No fixes without investigation first.",
+      "file": "skills/investigate.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-spec",
+      "name": "Spec",
+      "description": "Author a backlog-ready spec or issue from a rough idea. Produces a structured task description ready to assign to an agent.",
+      "file": "skills/spec.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-discussion-facilitation",
+      "name": "Discussion Facilitation",
+      "description": "Extract and organize value from AoA discussion threads. Surfaces decisions, tasks, insights, and context from team conversations.",
+      "file": "skills/discussion-facilitation.md",
+      "category": "commander",
+      "tags": ["official"]
+    }
+  ]
+}

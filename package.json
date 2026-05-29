@@ -1,0 +1,26 @@
+{
+  "name": "@armyofagents/aoa-skills",
+  "version": "0.1.0",
+  "description": "Official Commander skills and instruction files for Army of Agents.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "validate": "bun run validate.ts",
+    "validate:skills": "bun run validate.ts skills/",
+    "validate:commander": "bun run validate.ts commander/",
+    "validate:overlays": "bun run validate.ts model-overlays/",
+    "bump-version": "bash scripts/bump-version.sh"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "aoa",
+    "army-of-agents",
+    "commander",
+    "skills",
+    "ai-agent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MeteoriteLabs/AoA-Skills.git"
+  }
+}

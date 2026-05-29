@@ -1,0 +1,13 @@
+{
+  "name": "aoa-skills",
+  "version": "0.1.0",
+  "description": "Commander skills and instruction files for Army of Agents. Loads AoA context and available skills into every Claude Code session.",
+  "hooks": {
+    "sessionStart": ["./hooks/run-hook.cmd session-start"]
+  },
+  "skills": "./skills/",
+  "contextFiles": [
+    "./commander/TOOLS.md",
+    "./commander/AGENTS.md"
+  ]
+}

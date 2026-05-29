@@ -1,0 +1,11 @@
+{
+  "name": "aoa-skills",
+  "version": "0.1.0",
+  "description": "Commander skills and instruction files for Army of Agents.",
+  "skills": "./skills/",
+  "contextFiles": [
+    "./commander/TOOLS.md",
+    "./commander/AGENTS.md"
+  ],
+  "modelOverlay": "./model-overlays/codex.md"
+}

@@ -1,0 +1,65 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - 'commander/**'
+      - 'model-overlays/**'
+      - 'validate.ts'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - 'commander/**'
+      - 'model-overlays/**'
+      - 'validate.ts'
+
+jobs:
+  validate:
+    name: Tool Name Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run validate.ts
+        run: bun run validate.ts
+
+      - name: Check skill frontmatter
+        run: |
+          echo "Checking skill frontmatter..."
+          ERRORS=0
+          for f in skills/*.md; do
+            if ! grep -q "^requires: aoa-mcp" "$f"; then
+              echo "  MISSING frontmatter 'requires: aoa-mcp' in $f"
+              ERRORS=$((ERRORS + 1))
+            fi
+            if ! grep -q "^key: skill:aoa-curated/" "$f"; then
+              echo "  MISSING or WRONG 'key:' in $f (expected skill:aoa-curated/aoa-*)"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "Found $ERRORS frontmatter errors."
+            exit 1
+          fi
+          echo "All skill frontmatter OK."
+
+      - name: Check catalog consistency
+        run: |
+          echo "Checking catalog/skills.json matches skills/ directory..."
+          SKILL_COUNT=$(ls skills/*.md | wc -l)
+          CATALOG_COUNT=$(bun -e "const c = require('./catalog/skills.json'); console.log(c.skills.length)")
+          if [ "$SKILL_COUNT" != "$CATALOG_COUNT" ]; then
+            echo "Mismatch: $SKILL_COUNT skill files but $CATALOG_COUNT entries in catalog/skills.json"
+            exit 1
+          fi
+          echo "Catalog count matches: $SKILL_COUNT skills."
