@@ -89,6 +89,29 @@ const BANNED_TOOLS = new Map<string, string>([
 ]);
 
 // ──────────────────────────────────────────────────────────────────────────────
+// Non-tool snake_case identifiers that appear in AoA skill content but are NOT
+// tool names — task statuses, memory layers, adapter types, goal statuses, etc.
+// These are safe to use in backticks for code-style formatting.
+// ──────────────────────────────────────────────────────────────────────────────
+const NON_TOOL_IDENTIFIERS = new Set([
+  // Task statuses
+  "in_progress", "todo", "backlog", "done", "blocked", "cancelled",
+  // Goal statuses
+  "at_risk", "planned", "active", "achieved",
+  // Memory layers
+  "identity", "domain", "active_context", "working",
+  // Adapter types
+  "claude_local", "codex_local", "opencode_local", "gemini_local",
+  "process", "http", "openclaw", "hermes_local", "cursor",
+  // Common AoA field names
+  "goalId", "departmentId", "companyId", "sourceType",
+  // Priority values
+  "urgent", "high", "medium", "low",
+  // Trust tiers
+  "verified", "community", "unverified",
+]);
+
+// ──────────────────────────────────────────────────────────────────────────────
 // Scan directories
 // ──────────────────────────────────────────────────────────────────────────────
 const TARGET_DIRS = ["skills", "commander", "model-overlays"];
@@ -131,14 +154,31 @@ function scanFile(filePath: string): LintError[] {
       ]);
       if (PROSE_SKIP.has(name)) continue;
 
+      // Skip known non-tool identifiers (statuses, layers, adapter types, etc.)
+      if (NON_TOOL_IDENTIFIERS.has(name)) continue;
+
       if (BANNED_TOOLS.has(name)) {
-        errors.push({
-          file: filePath,
-          line: lineIdx + 1,
-          toolName: name,
-          type: "banned",
-          suggestion: BANNED_TOOLS.get(name),
-        });
+        // Only flag as banned if the line is NOT clearly documenting the ban
+        // (i.e. lines like "suggest_memory does not exist — use create_memory")
+        const lowerLine = line.toLowerCase();
+        const isBanDocumentation =
+          lowerLine.includes("does not exist") ||
+          lowerLine.includes("not exist") ||
+          lowerLine.includes("← banned") ||
+          lowerLine.includes("← not") ||
+          lowerLine.includes("never use") ||
+          lowerLine.includes("use create_memory") ||
+          lowerLine.includes("was never") ||
+          lowerLine.includes("phantom name");
+        if (!isBanDocumentation) {
+          errors.push({
+            file: filePath,
+            line: lineIdx + 1,
+            toolName: name,
+            type: "banned",
+            suggestion: BANNED_TOOLS.get(name),
+          });
+        }
       } else if (!VALID_TOOLS.has(name) && name.includes("_")) {
         // Only flag snake_case names — prose words rarely use underscores
         errors.push({
