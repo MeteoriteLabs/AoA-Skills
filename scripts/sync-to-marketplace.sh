@@ -41,6 +41,8 @@ while IFS= read -r skill; do
   mkdir -p "$DEST_DIR"
 
   # Write manifest.json
+  # license: MIT matches the example-skill fixture and silences the
+  # automated-checks "no license" warning in the catalog builder.
   cat > "$DEST_DIR/manifest.json" << EOF
 {
   "id": "$SKILL_ID",
@@ -49,17 +51,21 @@ while IFS= read -r skill; do
   "version": "$VERSION",
   "category": "$SKILL_CATEGORY",
   "tags": ["official"],
+  "license": "MIT",
   "sourceUrl": "https://github.com/MeteoriteLabs/AoA-Skills",
   "contentInline": true,
   "runtime": { "entry": "SKILL.md" }
 }
 EOF
 
-  # Copy SKILL.md (strip YAML frontmatter — marketplace serves clean markdown)
+  # Copy SKILL.md verbatim, INCLUDING YAML frontmatter.
+  # The aoa-curated adapter (catalog/src/sources/aoa-curated/adapter.ts) calls
+  # parseFrontmatter() on SKILL.md to populate skill.frontmatter.{name,description}.
+  # Existing marketplace skills (aoa-thread-extract) keep their frontmatter, so
+  # we match that convention — stripping it would lose the metadata.
   SRC_FILE="$ROOT_DIR/$SKILL_FILE"
   if [ -f "$SRC_FILE" ]; then
-    # Strip frontmatter (---...--- block at top of file)
-    awk '/^---$/{if(NR==1){skip=1;next} if(skip){skip=0;next}} !skip' "$SRC_FILE" > "$DEST_DIR/SKILL.md"
+    cp "$SRC_FILE" "$DEST_DIR/SKILL.md"
   else
     echo "Warning: Source file not found: $SRC_FILE"
   fi
