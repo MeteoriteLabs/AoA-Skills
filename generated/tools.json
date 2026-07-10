@@ -39,6 +39,15 @@
       "mcpAlias": null
     },
     {
+      "name": "approval_decision",
+      "surface": "commander",
+      "category": "action",
+      "readWrite": "write",
+      "requiredRole": "founder",
+      "description": "Decide an approval: approve, reject, request revision, or resubmit. Founder-only, and always confirmed before it runs (irreversible governance action).",
+      "mcpAlias": null
+    },
+    {
       "name": "archive_stale_memory",
       "surface": "commander",
       "category": "memory",
@@ -246,6 +255,33 @@
       "mcpAlias": null
     },
     {
+      "name": "get_approval",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "founder",
+      "description": "Read one approval by id: its type, status, payload, and requester. Use to inspect a specific pending decision before acting on it.",
+      "mcpAlias": null
+    },
+    {
+      "name": "get_approval_tasks",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "founder",
+      "description": "List the tasks an approval is gating (what unblocks if it is approved).",
+      "mcpAlias": null
+    },
+    {
+      "name": "get_heartbeat_context",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "team_member",
+      "description": "Read a task plus its 10 most recent comments — including the auto-generated run-summary an agent posts after each run (outcome, duration, cost, files touched). Use to see what an agent actually did on a task.",
+      "mcpAlias": null
+    },
+    {
       "name": "get_task",
       "surface": "commander",
       "category": "query",
@@ -297,6 +333,24 @@
       "readWrite": "write",
       "requiredRole": "team_lead",
       "description": "Scope a discussion to a project, department, or goal.",
+      "mcpAlias": null
+    },
+    {
+      "name": "list_approval_comments",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "founder",
+      "description": "List the discussion/comments on an approval (context for the decision).",
+      "mcpAlias": null
+    },
+    {
+      "name": "list_approvals",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "founder",
+      "description": "List the company's approval requests (governance decisions awaiting a call), newest first. Optional filters: status (pending|approved|rejected|revision_requested|…), type. Use when asked what needs approval / what is waiting on the founder.",
       "mcpAlias": null
     },
     {

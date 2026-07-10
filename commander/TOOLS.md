@@ -2,7 +2,7 @@
 
 <!-- GENERATED — DO NOT EDIT. Run `pnpm gen:tools:md`. Source: packages/shared/src/generated/tools.json -->
 
-The 75 tools below are your complete set, generated from the live tool registry. Only call tools in this list; no other tool names exist.
+The 81 tools below are your complete set, generated from the live tool registry. Only call tools in this list; no other tool names exist.
 
 **Tool naming convention.** Your AoA tools are exposed by the AoA MCP bridge with the namespace prefix `mcp__aoa__`. Inside this file the tools are written without the prefix for readability (e.g. `query_tasks`); when you invoke a tool call the prefixed form (`mcp__aoa__query_tasks`).
 
@@ -11,8 +11,13 @@ The 75 tools below are your complete set, generated from the live tool registry.
 | Tool | R/W | Min role | What it does |
 |------|-----|----------|--------------|
 | `find_similar_threads` | read | team_member | Find threads similar to a text query via embedding cosine similarity (HNSW). |
+| `get_approval` | read | founder | Read one approval by id: its type, status, payload, and requester. Use to inspect a specific pending decision before acting on it. |
+| `get_approval_tasks` | read | founder | List the tasks an approval is gating (what unblocks if it is approved). |
+| `get_heartbeat_context` | read | team_member | Read a task plus its 10 most recent comments — including the auto-generated run-summary an agent posts after each run (outcome, duration, cost, files touched). Use to see what an agent actually did on a task. |
 | `get_task` | read | team_member | Read the full context of a single task (your assigned task): identifier, title, description, status, priority, the source discussion thread, the assigned agent, and execution workspace. Use this to understand what you have been asked to do before starting work. |
 | `get_thread_summary` | read | team_member | Return a thread's summary, intent, phase, and crew participants. |
+| `list_approval_comments` | read | founder | List the discussion/comments on an approval (context for the decision). |
+| `list_approvals` | read | founder | List the company's approval requests (governance decisions awaiting a call), newest first. Optional filters: status (pending\|approved\|rejected\|revision_requested\|…), type. Use when asked what needs approval / what is waiting on the founder. |
 | `list_thread_cards` | read | team_member | Fetch routing cards (summaryText + routingTerms) for active threads. Use this to get candidate threads before deciding where an inbound item belongs. |
 | `query_activity` | read | team_member | Get recent activity log entries. |
 | `query_agents` | read | team_member | List agents with optional department filter. |
@@ -33,6 +38,7 @@ The 75 tools below are your complete set, generated from the live tool registry.
 | Tool | R/W | Min role | What it does |
 |------|-----|----------|--------------|
 | `advance_phase` | write | team_member | Advance a thread to the next phase. Requires autonomy level ≥ 2. |
+| `approval_decision` | write | founder | Decide an approval: approve, reject, request revision, or resubmit. Founder-only, and always confirmed before it runs (irreversible governance action). |
 | `assign_task` | write | team_lead | Assign a task to an agent or user. |
 | `attach_to_thread` | write | team_member | Move a thread_inbox_items entry to a real thread as a new discussion entry. |
 | `create_agent` | write | founder | Create a new worker agent. Founder-only. |
