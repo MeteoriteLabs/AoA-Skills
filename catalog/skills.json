@@ -73,6 +73,14 @@
       "file": "skills/daily-triage.md",
       "category": "commander",
       "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-review-agent-output",
+      "name": "Review Agent Output",
+      "description": "Check an agent's deliverable against a task's acceptance criteria and decide whether to approve it or send it back for revision.",
+      "file": "skills/review-agent-output.md",
+      "category": "commander",
+      "tags": ["official"]
     }
   ]
 }
