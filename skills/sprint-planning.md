@@ -1,6 +1,6 @@
 ---
 name: aoa-sprint-planning
-description: Break a goal or idea into structured tasks with dependencies and agent assignments. Creates a full task plan before executing.
+description: Use when a goal or larger effort needs to be broken into several tasks with dependencies and agent assignments before anyone starts. Not for a single self-contained task (use Spec) or for deciding whether the effort is worth doing (use Brainstorm / Office Hours).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-sprint-planning
 ---

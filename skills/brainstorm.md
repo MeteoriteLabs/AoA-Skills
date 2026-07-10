@@ -1,6 +1,6 @@
 ---
 name: aoa-brainstorm
-description: YC-style idea interrogation before building. Surfaces assumptions, sharpens scope, and decides whether to build.
+description: Use when someone has a raw or half-formed idea and wants it pressure-tested before any building starts — surfacing hidden assumptions and deciding whether it is worth doing at all. Not for shaping an already-decided idea into a task (use Spec) or for a strategic side-bet on a product feature (use Office Hours).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-brainstorm
 ---

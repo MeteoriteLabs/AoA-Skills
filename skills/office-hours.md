@@ -1,6 +1,6 @@
 ---
 name: aoa-office-hours
-description: Design thinking session for side projects, product features, or strategic bets. Six forcing questions that expose demand, user reality, and the narrowest wedge.
+description: Use when someone is weighing whether to pursue a side project, a new product feature, or a strategic bet and needs demand, user reality, and the narrowest wedge exposed before committing. Not for a general idea interrogation (use Brainstorm) or turning a chosen idea into work (use Spec / Sprint Planning).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-office-hours
 ---

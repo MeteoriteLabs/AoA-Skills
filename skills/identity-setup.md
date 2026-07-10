@@ -1,6 +1,6 @@
 ---
 name: aoa-identity-setup
-description: Guide a new company through setting their vision, mission, and identity in AoA.
+description: Use when a new or unshaped company needs its vision, mission, and identity established in AoA. Not for editing a single existing identity field and not for department or agent structure (use Team Design).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-identity-setup
 ---

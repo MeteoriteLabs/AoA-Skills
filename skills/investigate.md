@@ -1,6 +1,6 @@
 ---
 name: aoa-investigate
-description: Root-cause investigation for agent failures, blocked tasks, and unexpected outputs. No fixes without investigation first.
+description: Use when an agent run failed, a task is stuck or blocked, or an output is wrong and the cause is not yet understood — root-cause first, no fixes before the cause is found. Not for routine "what's the status" questions (a plain query answers those).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-investigate
 ---

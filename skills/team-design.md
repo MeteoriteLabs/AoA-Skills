@@ -1,6 +1,6 @@
 ---
 name: aoa-team-design
-description: Design the right agent team for a company or project. Recommends agent roles, adapter types, and concurrency based on what you are building.
+description: Use when someone is deciding which agents a company or project should have — roles, adapter types, and concurrency — usually while setting up or scaling. Not for assigning existing agents to a specific task (that is routine assignment, no skill needed).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-team-design
 ---

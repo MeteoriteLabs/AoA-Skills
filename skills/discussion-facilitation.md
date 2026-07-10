@@ -1,6 +1,6 @@
 ---
 name: aoa-discussion-facilitation
-description: Extract and organize value from AoA discussion threads. Surfaces decisions, tasks, insights, and context from team conversations.
+description: Use when a discussion thread has accumulated conversation and someone wants the decisions, tasks, insights, and context pulled out and organized. Not for authoring one new task from scratch (use Spec).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-discussion-facilitation
 ---

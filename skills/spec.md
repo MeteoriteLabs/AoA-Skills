@@ -1,6 +1,6 @@
 ---
 name: aoa-spec
-description: Author a backlog-ready spec or issue from a rough idea. Produces a structured task description ready to assign to an agent.
+description: Use when someone has a decided change — a feature, fix, or task — and wants it written up as one backlog-ready, unambiguous item an agent can pick up. Not for still-uncertain ideas (use Brainstorm) and not for work that spans several tasks with dependencies (use Sprint Planning).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-spec
 ---
