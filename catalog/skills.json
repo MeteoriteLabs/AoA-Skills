@@ -81,6 +81,14 @@
       "file": "skills/review-agent-output.md",
       "category": "commander",
       "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-delegate-handoff",
+      "name": "Delegate & Handoff",
+      "description": "The planning-to-execution bridge. Pick the right agent by workload and fit, write a task spec with clear acceptance criteria, set dependencies, and dispatch — with confirmation before every write.",
+      "file": "skills/delegate-handoff.md",
+      "category": "commander",
+      "tags": ["official"]
     }
   ]
 }
