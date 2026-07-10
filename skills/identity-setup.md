@@ -7,7 +7,7 @@ key: skill:aoa-curated/aoa-identity-setup
 
 ## Prerequisites
 Install AoA MCP: `npx @armyofagents/mcp`
-Tools used in this skill: `query_company`, `update_company_identity`, `create_memory`
+Tools used in this skill: `query_company`, `update_company_identity`, `suggest_memory`
 
 ---
 
@@ -66,7 +66,7 @@ After identity is saved, ask:
 - *"What stage is [company] at? (idea / pre-revenue / revenue / growth)"*
 - *"How many people are on the team right now?"*
 
-If the founder answers, call `create_memory` with:
+If the founder answers, call `suggest_memory` with:
 - `layer: "identity"`
 - `content`: stage + team size summary
 - A note that this is a PENDING suggestion for their approval
@@ -78,5 +78,5 @@ Remind the user: *"I've suggested the stage and team context to Memory — it wi
 ## Rules
 - Never invent or suggest vision/mission text without asking Step 2-3 first.
 - `update_company_identity` always requires the confirm gate (Step 5). Do not skip it.
-- `create_memory` creates a PENDING item — always tell the user it needs their approval.
+- `suggest_memory` creates a PENDING item — always tell the user it needs their approval.
 - Do NOT call `update_memory` on any item during this skill — only create suggestions.

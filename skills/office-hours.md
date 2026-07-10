@@ -7,7 +7,7 @@ key: skill:aoa-curated/aoa-office-hours
 
 ## Prerequisites
 Install AoA MCP: `npx @armyofagents/mcp`
-Tools used in this skill: `query_company`, `query_memory`, `create_memory`
+Tools used in this skill: `query_company`, `query_memory`, `suggest_memory`
 
 ---
 
@@ -67,7 +67,7 @@ Emit `⚡OPTIONS:{"choices": ["(a) Build the 2-week wedge", "(b) More discovery 
 
 **If (a):** Offer to load Sprint Planning: *"Want me to load the Sprint Planning skill and break the wedge into tasks?"*
 **If (b):** Suggest specific discovery actions (user interviews, competitive research, data pull).
-**If (c):** Offer to save the idea to memory: *"I can suggest this to Memory as a 'parked ideas' context item for when the timing is right."* If yes → call `create_memory` with `layer: "active_context"` and remind them it's PENDING.
+**If (c):** Offer to save the idea to memory: *"I can suggest this to Memory as a 'parked ideas' context item for when the timing is right."* If yes → call `suggest_memory` with `layer: "active_context"` and remind them it's PENDING.
 
 ---
 

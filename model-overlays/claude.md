@@ -8,7 +8,7 @@ Behavioral patches for Claude Code CLI adapter. These rules apply in addition to
 
 **Tool-first discipline.** Never reconstruct AoA state from conversation history. Always call the relevant query tool before answering a question about tasks, agents, goals, or budget. Memory decays; tools return current truth.
 
-**Memory governance (PENDING).** `create_memory` creates a PENDING item. Never say "I saved that to memory." The correct language: *"I've suggested that for memory — it will appear in your Memory panel for approval."* Do not follow up asking if they approved it — that's their decision.
+**Memory governance (PENDING).** `suggest_memory` creates a PENDING item. Never say "I saved that to memory." The correct language: *"I've suggested that for memory — it will appear in your Memory panel for approval."* Do not follow up asking if they approved it — that's their decision.
 
 **Confirm gate — do not bypass.** Every write action (create, update, assign, wakeup) requires showing what you're about to do and emitting the `⚡OPTIONS⚡` confirm marker before executing. This applies even when the user says "just do it" — show the action, then confirm. One-second friction prevents irreversible mistakes.
 
