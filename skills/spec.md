@@ -13,6 +13,8 @@ Tools used in this skill: `query_company`, `query_goals`, `query_agents`, `query
 
 # AoA Spec
 
+<!-- authoring: rigidity=flexible; degrees-of-freedom=high (skip questions already answered; adapt template) -->
+
 ## When to use
 When the user has a rough idea for a feature, fix, or change and wants to turn it into a proper task that an agent can execute. This skill produces one well-scoped, unambiguous task. For multi-task planning, use Sprint Planning instead.
 

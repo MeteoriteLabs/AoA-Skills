@@ -13,6 +13,8 @@ Tools used in this skill: `query_company`, `update_company_identity`, `suggest_m
 
 # AoA Identity Setup
 
+<!-- authoring: rigidity=rigid; degrees-of-freedom=low (steps and their order are the point — do not skip or reorder) -->
+
 ## When to use
 Run when a company has no vision/mission set, or when the founder wants to revisit their identity. Also run proactively on first conversation if `query_company` shows empty vision/mission fields.
 
@@ -78,5 +80,4 @@ Remind the user: *"I've suggested the stage and team context to Memory — it wi
 ## Rules
 - Never invent or suggest vision/mission text without asking Step 2-3 first.
 - `update_company_identity` always requires the confirm gate (Step 5). Do not skip it.
-- `suggest_memory` creates a PENDING item — always tell the user it needs their approval.
 - Do NOT call `update_memory` on any item during this skill — only create suggestions.

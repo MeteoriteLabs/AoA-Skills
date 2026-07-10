@@ -13,6 +13,8 @@ Tools used in this skill: `search_discussions`, `extract_from_content`, `link_di
 
 # AoA Discussion Facilitation
 
+<!-- authoring: rigidity=flexible; degrees-of-freedom=high (which sub-actions to run — extract, link, create tasks — depend entirely on what the user asks for) -->
+
 ## When to use
 When the user wants to get value out of a discussion thread: extract decisions that were made, surface tasks that were mentioned but not created, capture insights or context for Memory, or link a thread to the right department/project.
 

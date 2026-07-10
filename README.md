@@ -59,7 +59,11 @@ bun run validate:commander  # commander/ only
 
 ## Contributing
 
-Skills in this repo are published to the AoA marketplace via `aoa-marketplace`. To update a skill:
+Skills in this repo are published to the AoA marketplace via `aoa-marketplace`. Read
+[`AUTHORING.md`](./AUTHORING.md) first — it covers description rules (WHEN-only
+routing prose), surface-agnostic tool references, the shared-preamble contract,
+rigid-vs-flexible self-labeling, and cross-skill referencing conventions. To
+update a skill:
 
 1. Edit the `.md` file in `skills/`
 2. Run `bun run validate` to check tool names

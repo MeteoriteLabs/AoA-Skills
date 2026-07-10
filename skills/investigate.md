@@ -13,6 +13,8 @@ Tools used in this skill: `query_tasks`, `query_agents`, `query_activity`, `quer
 
 # AoA Investigate
 
+<!-- authoring: rigidity=rigid; degrees-of-freedom=low (evidence-before-hypothesis order is the point — do not skip or reorder) -->
+
 ## When to use
 When something is wrong: an agent produced bad output, a task is stuck, a goal is at risk, costs are spiking, or the user says "something's off." **Do not suggest fixes until you have a root cause.** Investigation before prescription.
 
@@ -74,8 +76,6 @@ Offer 1-3 concrete next steps, ordered by most-likely-to-fix:
 > 3. [Longer-term fix]"
 
 Emit `⚡OPTIONS:{"choices": ["Take step 1", "Take step 2", "Take step 3", "I'll handle it myself"]}⚡`
-
-If the user chooses a step that requires write actions, confirm before executing (standard confirm gate applies).
 
 ---
 

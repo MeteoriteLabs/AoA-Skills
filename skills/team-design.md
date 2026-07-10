@@ -13,6 +13,8 @@ Tools used in this skill: `query_company`, `query_agents`, `query_departments`, 
 
 # AoA Team Design
 
+<!-- authoring: rigidity=flexible; degrees-of-freedom=medium (function/role recommendations adapt to what the company is building; org chart confirmation is not skippable) -->
+
 ## When to use
 When a founder is starting out or expanding their agent team and wants structured guidance on which agents to hire and how to structure them. Run before `create_agent` calls.
 

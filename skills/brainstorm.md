@@ -13,6 +13,8 @@ Tools used in this skill: `query_company`, `query_tasks`, `create_task`
 
 # AoA Brainstorm
 
+<!-- authoring: rigidity=flexible; degrees-of-freedom=medium (probe order can adapt to the conversation; do not skip probing) -->
+
 ## When to use
 Invoke this skill when the user proposes a new feature, project, or initiative **before any tasks are created**. The goal is to sharpen the idea, not kill it. Do NOT create tasks during this skill.
 

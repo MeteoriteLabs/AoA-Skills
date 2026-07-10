@@ -13,6 +13,8 @@ Tools used in this skill: `query_company`, `query_memory`, `suggest_memory`
 
 # AoA Office Hours
 
+<!-- authoring: rigidity=flexible; degrees-of-freedom=low (Q1-Q6 run in sequence; synthesis and decision framing can adapt) -->
+
 ## When to use
 When the user brings a product idea, a strategic bet, or a "should we build X?" question — **before any tasks are created**. This is the pre-planning interrogation. It surfaces whether the idea is worth building at all.
 
