@@ -4,8 +4,9 @@
  *
  * Scans all .md files in skills/, commander/, and model-overlays/ for:
  * 1. Invalid tool names — any backtick-wrapped identifier that looks like a tool
- *    call but is not in the 34-tool VALID_TOOLS list.
- * 2. Banned tool names — known wrong names (e.g. suggest_memory) that were
+ *    call but is not in the VALID_TOOLS allowlist (sourced from the vendored
+ *    generated/tools.json manifest).
+ * 2. Banned tool names — known wrong names (e.g. create_memory) that were
  *    removed or never existed.
  *
  * Usage:
@@ -16,67 +17,39 @@
  * Exit code: 0 = pass, 1 = errors found
  */
 
-import { readdirSync, readFileSync, statSync } from "fs";
+import { readdirSync, readFileSync, statSync, existsSync } from "fs";
 import { join, relative } from "path";
 
 // ──────────────────────────────────────────────────────────────────────────────
-// The 34 real Commander MCP tools. Sourced from server/src/mcp/tools/index.ts.
-// Update this list when tools are added or removed from Commander.
+// The real Commander tool allowlist, sourced from the vendored generated/tools.json
+// manifest (written by the product's `pnpm gen:tools` + delivered via
+// `pnpm sync:skills`). Do NOT hand-maintain this list — it is a projection of the
+// live tool registry and is refreshed by the product sync.
 // ──────────────────────────────────────────────────────────────────────────────
-const VALID_TOOLS = new Set([
-  // Query
-  "query_tasks",
-  "query_goals",
-  "query_agents",
-  "query_departments",
-  "query_budget",
-  "query_activity",
-  "query_company",
-  // Action
-  "create_task",
-  "update_task",
-  "create_department",
-  "create_goal",
-  "create_agent",
-  "update_agent",
-  "assign_task",
-  "wakeup_agent",
-  "update_company_identity",
-  // Memory
-  "query_memory",
-  "create_memory",
-  "update_memory",
-  "find_similar_memory",
-  "detect_conflicts",
-  // Discussion
-  "extract_from_content",
-  "search_discussions",
-  "link_discussion_to_project",
-  "submit_extracted_items",
-  // Workflow
-  "create_workflow_template",
-  "instantiate_workflow",
-  "add_task_dependency",
-  // File
-  "read_file",
-  // Coordination
-  "query_dependency_chain",
-  // Analysis
-  "analyze_workload",
-  "suggest_improvements",
-  // Skills & delegation
-  "use_skill",
-  "delegate_to_subagent",
-]);
+const MANIFEST_PATH = join(import.meta.dir ?? process.cwd(), "generated/tools.json");
+if (!existsSync(MANIFEST_PATH)) {
+  console.error(
+    `FATAL: generated/tools.json not found at ${MANIFEST_PATH}. ` +
+      "Run the product sync (`pnpm sync:skills`) before validating.",
+  );
+  process.exit(2);
+}
+const manifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf-8")) as {
+  tools: Array<{ name: string; surface: string }>;
+};
+// Commander-surface names are the authored/validated flavor (scope §2 decision 2).
+const VALID_TOOLS = new Set(
+  manifest.tools.filter((t) => t.surface === "commander").map((t) => t.name),
+);
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Known wrong/banned tool names that should never appear in skill files.
 // These are tools that used to exist, were renamed, or were phantom names.
 // ──────────────────────────────────────────────────────────────────────────────
 const BANNED_TOOLS = new Map<string, string>([
-  ["suggest_memory", "create_memory"],          // was never a real tool
-  ["save_memory", "create_memory"],             // phantom name
-  ["approve_memory", "update_memory"],          // phantom name
+  ["create_memory", "suggest_memory"],           // phantom — never existed on any surface
+  ["save_memory", "suggest_memory"],             // phantom name
+  ["approve_memory", "update_memory"],           // phantom name
   ["search_tasks", "query_tasks"],              // wrong name
   ["search_agents", "query_agents"],            // wrong name
   ["search_goals", "query_goals"],              // wrong name
@@ -167,7 +140,8 @@ function scanFile(filePath: string): LintError[] {
           lowerLine.includes("← banned") ||
           lowerLine.includes("← not") ||
           lowerLine.includes("never use") ||
-          lowerLine.includes("use create_memory") ||
+          lowerLine.includes("use suggest_memory") ||
+          lowerLine.includes("use `suggest_memory`") ||
           lowerLine.includes("was never") ||
           lowerLine.includes("phantom name");
         if (!isBanDocumentation) {
@@ -247,7 +221,7 @@ for (const err of allErrors) {
   if (err.type === "banned") {
     console.error(`  ${rel}:${err.line}  \`${err.toolName}\`  ← BANNED (use \`${err.suggestion}\` instead)`);
   } else {
-    console.error(`  ${rel}:${err.line}  \`${err.toolName}\`  ← NOT in 34-tool list`);
+    console.error(`  ${rel}:${err.line}  \`${err.toolName}\`  ← NOT in generated tool list`);
   }
 }
 
