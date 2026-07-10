@@ -9,6 +9,8 @@
     "validate:skills": "bun run validate.ts skills/",
     "validate:commander": "bun run validate.ts commander/",
     "validate:overlays": "bun run validate.ts model-overlays/",
+    "gen:tools-md": "bun scripts/gen-tools-md.ts",
+    "gen:tools-md:check": "bun scripts/gen-tools-md.ts --check",
     "bump-version": "bash scripts/bump-version.sh"
   },
   "devDependencies": {},
