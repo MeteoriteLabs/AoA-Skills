@@ -37,10 +37,14 @@ if (!existsSync(MANIFEST_PATH)) {
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf-8")) as {
   tools: Array<{ name: string; surface: string }>;
 };
-// Commander-surface names are the authored/validated flavor (scope §2 decision 2).
-const VALID_TOOLS = new Set(
-  manifest.tools.filter((t) => t.surface === "commander").map((t) => t.name),
-);
+// Commander-surface names are the authored/validated flavor (scope §2 decision 2)
+// for skill/persona prose. MCP-surface names are ALSO included in the allowlist
+// because commander/TOOLS.mcp.md (the generated MCP-flavor cheat-sheet, Task 10)
+// legitimately documents raw MCP tool names (e.g. `ask_founder`, `use_skill`) —
+// those are real, not phantoms, so they must not be flagged as "unknown". This
+// does not weaken phantom detection: BANNED_TOOLS is checked independently of
+// allowlist membership, so a genuinely wrong/removed name is still flagged.
+const VALID_TOOLS = new Set(manifest.tools.map((t) => t.name));
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Known wrong/banned tool names that should never appear in skill files.
@@ -129,6 +133,13 @@ function scanFile(filePath: string): LintError[] {
 
       // Skip known non-tool identifiers (statuses, layers, adapter types, etc.)
       if (NON_TOOL_IDENTIFIERS.has(name)) continue;
+
+      // Skip MCP-namespaced invocation forms (`mcp__aoa__`, `mcp__aoa__query_tasks`,
+      // etc.). These are the legitimate MCP tool-call namespace prefix used when an
+      // external agent invokes an AoA tool over the MCP bridge — not phantom tool
+      // names. The bare tool name (e.g. `query_tasks`) is validated separately
+      // against VALID_TOOLS/BANNED_TOOLS elsewhere in the same doc.
+      if (name.startsWith("mcp__")) continue;
 
       if (BANNED_TOOLS.has(name)) {
         // Only flag as banned if the line is NOT clearly documenting the ban
