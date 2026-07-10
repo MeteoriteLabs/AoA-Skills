@@ -65,6 +65,14 @@
       "file": "skills/discussion-facilitation.md",
       "category": "commander",
       "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-daily-triage",
+      "name": "Daily Triage",
+      "description": "Role-aware status and prioritization sweep. Surfaces what needs a human — open approvals, blockers, at-risk goals — ranked, without changing anything.",
+      "file": "skills/daily-triage.md",
+      "category": "commander",
+      "tags": ["official"]
     }
   ]
 }
