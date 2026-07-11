@@ -17,19 +17,25 @@ the weight: situation, intent, and disambiguation against sibling skills.
 > Good: `Use when someone has a decided change... Not for still-uncertain ideas (use Brainstorm).`
 > Bad: `Interrogates the idea, surfaces assumptions, and decides whether to build.`
 
-## 2. Tool references are surface-agnostic
+## 2. Prefer intent-words; Commander-surface tool names are acceptable in prose
 
-Skill prose describes *intent* — "suggest a memory item," "create the task" —
-not a hardcoded tool spelling. Real tool names differ per surface (Commander:
-`suggest_memory`; MCP: `memory.write`) and are resolved from the generated
-per-surface cheat-sheet (`generated/tools.json`), not authored by hand in
-skill bodies.
+Skill prose should prefer describing *intent* — "suggest a memory item,"
+"create the task" — over a hardcoded tool spelling. But naming a real
+Commander-surface tool verbatim in prose is acceptable: Commander is the
+primary surface skills run on, and every name is checked against the
+generated allowlist (`generated/tools.json` via `bun run validate`), so a
+stale or phantom name gets caught, not silently shipped.
 
-The only tool name safe to write verbatim in prose is `use_skill` — it is
-identical on every surface.
+What's not acceptable is hardcoding an MCP-surface spelling (e.g.
+`memory.write` where the Commander name is `suggest_memory`) — those differ
+per surface and are resolved from the generated per-surface cheat-sheet, not
+authored by hand in skill bodies.
+
+The one tool name safe to write verbatim on every surface is `use_skill`.
 
 > Good: "...suggest this to Memory as a `active_context` item."
-> Bad (Commander-only, don't hardcode in prose): "...call `suggest_memory`."
+> Good (Commander-surface, validated): "...call `suggest_memory`."
+> Bad (MCP-surface spelling, don't hardcode in prose): "...call `memory.write`."
 
 The `## Prerequisites` "Tools used in this skill" cheat-sheet line is the
 exception: it is a per-skill tool list generated/maintained per Plan 1's

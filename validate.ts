@@ -134,14 +134,21 @@ function scanFile(filePath: string): LintError[] {
       // Skip known non-tool identifiers (statuses, layers, adapter types, etc.)
       if (NON_TOOL_IDENTIFIERS.has(name)) continue;
 
-      // Skip MCP-namespaced invocation forms (`mcp__aoa__`, `mcp__aoa__query_tasks`,
-      // etc.). These are the legitimate MCP tool-call namespace prefix used when an
-      // external agent invokes an AoA tool over the MCP bridge — not phantom tool
-      // names. The bare tool name (e.g. `query_tasks`) is validated separately
-      // against VALID_TOOLS/BANNED_TOOLS elsewhere in the same doc.
-      if (name.startsWith("mcp__")) continue;
+      // MCP-namespaced invocation forms (`mcp__aoa__query_tasks`, etc.) wrap a bare
+      // tool name behind a server prefix (`mcp__<server>__`). Strip the prefix and
+      // validate the bare remainder against BANNED_TOOLS/VALID_TOOLS — this is what
+      // catches a banned/phantom name hiding behind the mcp__ namespace (e.g.
+      // `mcp__aoa__create_memory`) that would otherwise slip through undetected.
+      // Skip only if there's nothing left after the prefix (a lone `mcp__aoa__`
+      // reference in prose with no tool name attached).
+      let checkName = name;
+      if (name.startsWith("mcp__")) {
+        const mcpMatch = name.match(/^mcp__[a-z0-9]+__(.*)$/);
+        if (!mcpMatch || !mcpMatch[1]) continue;
+        checkName = mcpMatch[1];
+      }
 
-      if (BANNED_TOOLS.has(name)) {
+      if (BANNED_TOOLS.has(checkName)) {
         // Only flag as banned if the line is NOT clearly documenting the ban
         // (i.e. lines like "suggest_memory does not exist — use create_memory")
         const lowerLine = line.toLowerCase();
@@ -161,10 +168,10 @@ function scanFile(filePath: string): LintError[] {
             line: lineIdx + 1,
             toolName: name,
             type: "banned",
-            suggestion: BANNED_TOOLS.get(name),
+            suggestion: BANNED_TOOLS.get(checkName),
           });
         }
-      } else if (!VALID_TOOLS.has(name) && name.includes("_")) {
+      } else if (!VALID_TOOLS.has(checkName) && checkName.includes("_")) {
         // Only flag snake_case names — prose words rarely use underscores
         errors.push({
           file: filePath,

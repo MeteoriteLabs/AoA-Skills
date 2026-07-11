@@ -7,7 +7,7 @@ key: skill:aoa-curated/aoa-brainstorm
 
 ## Prerequisites
 Install AoA MCP: `npx @armyofagents/mcp`
-Tools used in this skill: `query_company`, `query_memory`, `find_similar_memory`, `query_tasks`, `create_task`
+Tools used in this skill: `query_company`, `query_memory`, `find_similar_memory`, `query_tasks`
 
 ---
 
