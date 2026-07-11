@@ -59,7 +59,7 @@ If the user is ready to plan tasks, offer:
 
 > "Want me to load the Sprint Planning skill and break this into tasks?"
 
-If yes → call `use_skill skill:aoa-curated/aoa-sprint-planning`.
+If yes → call `use_skill skill:aoa/sprint-planning`.
 
 ---
 
