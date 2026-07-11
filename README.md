@@ -9,16 +9,16 @@ Official Commander skills and instruction files for [Army of Agents](https://arm
 
 ## Skills
 
-| Skill | Key | Description |
+| Skill | Key | When to use |
 |-------|-----|-------------|
-| Brainstorm | `skill:aoa-curated/aoa-brainstorm` | YC-style idea interrogation before building |
-| Identity Setup | `skill:aoa-curated/aoa-identity-setup` | Guide a new company through vision/mission setup |
-| Sprint Planning | `skill:aoa-curated/aoa-sprint-planning` | Break a goal into structured tasks |
-| Team Design | `skill:aoa-curated/aoa-team-design` | Design the right agent team |
-| Office Hours | `skill:aoa-curated/aoa-office-hours` | Design thinking for product ideas |
-| Investigate | `skill:aoa-curated/aoa-investigate` | Root-cause investigation for failures |
-| Spec | `skill:aoa-curated/aoa-spec` | Author a backlog-ready task spec |
-| Discussion Facilitation | `skill:aoa-curated/aoa-discussion-facilitation` | Extract value from discussion threads |
+| Brainstorm | `skill:aoa-curated/aoa-brainstorm` | A raw or half-formed idea needs pressure-testing before any building starts |
+| Identity Setup | `skill:aoa-curated/aoa-identity-setup` | A new or unshaped company needs vision, mission, and identity established |
+| Sprint Planning | `skill:aoa-curated/aoa-sprint-planning` | A goal or larger effort needs breaking into several tasks with dependencies |
+| Team Design | `skill:aoa-curated/aoa-team-design` | Deciding which agents a company or project should have |
+| Office Hours | `skill:aoa-curated/aoa-office-hours` | Weighing a side project, product feature, or strategic bet before committing |
+| Investigate | `skill:aoa-curated/aoa-investigate` | An agent run failed, a task is stuck, or an output is wrong and the cause is unclear |
+| Spec | `skill:aoa-curated/aoa-spec` | A decided change needs writing up as one backlog-ready task |
+| Discussion Facilitation | `skill:aoa-curated/aoa-discussion-facilitation` | A discussion thread needs its decisions, tasks, and insights pulled out |
 
 ## Using skills in AoA
 
@@ -59,7 +59,11 @@ bun run validate:commander  # commander/ only
 
 ## Contributing
 
-Skills in this repo are published to the AoA marketplace via `aoa-marketplace`. To update a skill:
+Skills in this repo are published to the AoA marketplace via `aoa-marketplace`. Read
+[`AUTHORING.md`](./AUTHORING.md) first — it covers description rules (WHEN-only
+routing prose), surface-agnostic tool references, the shared-preamble contract,
+rigid-vs-flexible self-labeling, and cross-skill referencing conventions. To
+update a skill:
 
 1. Edit the `.md` file in `skills/`
 2. Run `bun run validate` to check tool names

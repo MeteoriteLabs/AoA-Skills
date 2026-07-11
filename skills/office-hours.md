@@ -1,20 +1,22 @@
 ---
 name: aoa-office-hours
-description: Design thinking session for side projects, product features, or strategic bets. Six forcing questions that expose demand, user reality, and the narrowest wedge.
+description: Use when someone is weighing whether to pursue a side project, a new product feature, or a strategic bet and needs demand, user reality, and the narrowest wedge exposed before committing. Not for a general idea interrogation (use Brainstorm) or turning a chosen idea into work (use Spec / Sprint Planning).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-office-hours
 ---
 
 ## Prerequisites
 Install AoA MCP: `npx @armyofagents/mcp`
-Tools used in this skill: `query_company`, `query_memory`, `create_memory`
+Tools used in this skill: `query_company`, `query_memory`, `find_similar_memory`, `suggest_memory`
 
 ---
 
 # AoA Office Hours
 
+<!-- authoring: rigidity=flexible; degrees-of-freedom=low (grounding must happen before Q1, and Q1-Q6 run in sequence; synthesis and decision framing can adapt) -->
+
 ## When to use
-When the user brings a product idea, a strategic bet, or a "should we build X?" question — **before any tasks are created**. This is the pre-planning interrogation. It surfaces whether the idea is worth building at all.
+When the user brings a product idea, a strategic bet, or a "should we build X?" question — **before any tasks are created**. This is a critical pre-planning interrogation, not a supportive brainstorm — it surfaces whether the idea is worth building at all, and it is allowed to conclude the answer is no.
 
 Run this before Brainstorm for broader strategic questions, or instead of Brainstorm when the idea is early-stage and the user isn't sure it's worth pursuing.
 
@@ -23,8 +25,9 @@ Run this before Brainstorm for broader strategic questions, or instead of Brains
 ## Process
 
 ### Step 1: Ground the conversation
-Call `query_company` to get the company context.
-Call `query_memory` with `layer: "identity"` to see any relevant strategic constraints.
+Call `query_company` to get the company context. Call `query_memory` with `layer: "identity"` for relevant strategic constraints, then `find_similar_memory` for anything similar already decided, tried, or parked. Do this before asking Q1 — form no opinion until you know what the company already knows.
+
+If the idea conflicts with a locked identity-layer decision, or is a repeat of something already parked or tried and abandoned, surface that immediately: *"Heads up — this looks like [prior item]. Here's what's different this time, or here's why it stalled before."* Let the user respond before moving on.
 
 Ask: *"Tell me what you're thinking. What's the idea or decision in front of you?"*
 
@@ -51,12 +54,14 @@ Ask these in sequence. One at a time. Wait for a real answer before moving to th
 **Q6 — Future-fit:**
 *"If this works, what does it unlock in 12 months that you can't build without it? What does it rule out?"*
 
-### Step 3: Synthesize
+### Step 3: Synthesize — and push back
 After all six answers, write a crisp one-paragraph synthesis:
 
 > "[Company] is exploring [idea]. The target user is [user], currently solving this by [status quo]. The riskiest assumption is [assumption]. The narrowest 2-week test is [wedge]. If this works, it unlocks [future-fit]. If it fails, the signal is [failure signal]."
 
-Ask: *"Does this capture the reality? Anything you'd change?"*
+Then call out the single weakest answer from Q1-Q6 as its own sentence and push back on it directly: *"The part I'd push back on: [weakest answer — usually a thin Q1 or Q3]. If that's wrong, [what breaks]."* Say it once, plainly — don't bury it as a footnote in the synthesis, and don't soften it into a leading question.
+
+Ask: *"Does this capture the reality — and does the pushback change anything?"*
 
 ### Step 4: Decision
 Once the synthesis is confirmed, ask:
@@ -67,11 +72,14 @@ Emit `⚡OPTIONS:{"choices": ["(a) Build the 2-week wedge", "(b) More discovery 
 
 **If (a):** Offer to load Sprint Planning: *"Want me to load the Sprint Planning skill and break the wedge into tasks?"*
 **If (b):** Suggest specific discovery actions (user interviews, competitive research, data pull).
-**If (c):** Offer to save the idea to memory: *"I can suggest this to Memory as a 'parked ideas' context item for when the timing is right."* If yes → call `create_memory` with `layer: "active_context"` and remind them it's PENDING.
+**If (c):** Offer to save the idea to memory: *"I can suggest this to Memory as a 'parked ideas' context item for when the timing is right."* If yes → call `suggest_memory` with `layer: "active_context"` and remind them it's PENDING.
 
 ---
 
 ## Rules
+- Ground before you opine: pull identity memory + similar prior decisions before Q1. If this idea contradicts a locked decision or repeats a parked one, say so immediately.
+- Be a critical partner, not a cheerleader. Name the single weakest answer and push back on it at least once. Do not validate an idea you have not stress-tested — "park it" is a legitimate outcome, not a failure of the session.
+- One pushback, said once, clearly — then move on. No lectures, no stacked caveats.
 - Do NOT create tasks during this skill — discovery before execution.
 - Do NOT skip questions Q1-Q6. Even "obvious" ideas have weak assumptions.
 - Q3 (desperate specificity) is the most important question. If the user can't name a real person, that is the signal.

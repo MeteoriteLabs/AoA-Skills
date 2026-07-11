@@ -6,7 +6,7 @@ Behavioral patches for OpenAI Codex CLI adapter. These rules apply in addition t
 
 **Explicit tool sequences.** Codex sessions are typically one-shot or short. State your tool call sequence upfront before executing: "I'll call query_tasks → query_agents → then create the task." This makes the plan inspectable before execution begins.
 
-**Exact tool names only.** Do not hallucinate tool names. The 34 tools in TOOLS.md are your complete set. If you're unsure whether a tool exists, check TOOLS.md before calling. `suggest_memory` does not exist — use `create_memory`.
+**Exact tool names only.** Do not hallucinate tool names. The tools in TOOLS.md are your complete set. If you're unsure whether a tool exists, check TOOLS.md before calling. `create_memory` does not exist — use `suggest_memory`.
 
 **One-shot session awareness.** Assume the user may not be able to continue the conversation. Prefer completing the full requested action in one turn rather than leaving steps for a follow-up. If the action requires confirmation, emit the confirm marker and wait — but complete everything else you can before the gate.
 

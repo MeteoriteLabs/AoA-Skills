@@ -1,6 +1,6 @@
 ---
 name: aoa-discussion-facilitation
-description: Extract and organize value from AoA discussion threads. Surfaces decisions, tasks, insights, and context from team conversations.
+description: Use when a discussion thread has accumulated conversation and someone wants the decisions, tasks, insights, and context pulled out and organized. Not for authoring one new task from scratch (use Spec).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-discussion-facilitation
 ---
@@ -12,6 +12,8 @@ Tools used in this skill: `search_discussions`, `extract_from_content`, `link_di
 ---
 
 # AoA Discussion Facilitation
+
+<!-- authoring: rigidity=flexible; degrees-of-freedom=high (which sub-actions to run — extract, link, create tasks — depend entirely on what the user asks for) -->
 
 ## When to use
 When the user wants to get value out of a discussion thread: extract decisions that were made, surface tasks that were mentioned but not created, capture insights or context for Memory, or link a thread to the right department/project.

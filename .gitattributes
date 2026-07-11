@@ -1,0 +1,7 @@
+# Generated artifacts must stay byte-identical across platforms (the freshness
+# gates in validate.yml diff them against a freshly-regenerated copy). Pin them
+# to LF so a Windows checkout (core.autocrlf=true) can't silently rewrite them
+# to CRLF and flake the `git diff --exit-code` / `--check` freshness steps.
+generated/tools.json text eol=lf
+commander/TOOLS.md text eol=lf
+commander/TOOLS.mcp.md text eol=lf

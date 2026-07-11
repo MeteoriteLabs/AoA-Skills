@@ -8,6 +8,8 @@ on:
       - 'commander/**'
       - 'model-overlays/**'
       - 'validate.ts'
+      - 'generated/**'
+      - 'scripts/**'
   pull_request:
     branches: [main]
     paths:
@@ -15,6 +17,8 @@ on:
       - 'commander/**'
       - 'model-overlays/**'
       - 'validate.ts'
+      - 'generated/**'
+      - 'scripts/**'
 
 jobs:
   validate:
@@ -32,6 +36,14 @@ jobs:
 
       - name: Run validate.ts
         run: bun run validate.ts
+
+      - name: Tool docs freshness (regen must be a no-op)
+        run: bun scripts/gen-tools-md.ts --check
+
+      - name: No hand-edited generated docs
+        run: |
+          bun scripts/gen-tools-md.ts
+          git diff --exit-code commander/TOOLS.mcp.md commander/TOOLS.md
 
       - name: Check skill frontmatter
         run: |

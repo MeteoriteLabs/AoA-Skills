@@ -1,6 +1,6 @@
 ---
 name: aoa-sprint-planning
-description: Break a goal or idea into structured tasks with dependencies and agent assignments. Creates a full task plan before executing.
+description: Use when a goal or larger effort needs to be broken into several tasks with dependencies and agent assignments before anyone starts. Not for a single self-contained task (use Spec) or for deciding whether the effort is worth doing (use Brainstorm / Office Hours).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-sprint-planning
 ---
@@ -12,6 +12,8 @@ Tools used in this skill: `query_tasks`, `query_agents`, `query_goals`, `create_
 ---
 
 # AoA Sprint Planning
+
+<!-- authoring: rigidity=flexible; degrees-of-freedom=medium (milestone/task breakdown adapts to scope; never skip showing the full plan before creating) -->
 
 ## When to use
 When the user has a clear goal and wants to turn it into concrete, assigned, prioritized tasks. Also invoked from the Brainstorm skill when the user is ready to build.
@@ -86,7 +88,7 @@ After all tasks are created:
 
 ## Rules
 - Never create tasks without showing the full plan first (Step 3).
-- Respect the confirm gate — never call `create_task` without user approval.
+- Never call `create_task` without user approval (Step 3 confirm gate).
 - Use `add_task_dependency` generously — a well-linked plan is easier to manage than a flat list.
 - Do NOT call `wakeup_agent` during this skill — that's for the user to trigger when ready.
 - If the user adds tasks mid-plan, re-show the full updated list and re-confirm before creating.

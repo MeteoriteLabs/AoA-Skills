@@ -1,17 +1,19 @@
 ---
 name: aoa-identity-setup
-description: Guide a new company through setting their vision, mission, and identity in AoA.
+description: Use when a new or unshaped company needs its vision, mission, and identity established in AoA. Not for editing a single existing identity field and not for department or agent structure (use Team Design).
 requires: aoa-mcp
 key: skill:aoa-curated/aoa-identity-setup
 ---
 
 ## Prerequisites
 Install AoA MCP: `npx @armyofagents/mcp`
-Tools used in this skill: `query_company`, `update_company_identity`, `create_memory`
+Tools used in this skill: `query_company`, `update_company_identity`, `suggest_memory`
 
 ---
 
 # AoA Identity Setup
+
+<!-- authoring: rigidity=rigid; degrees-of-freedom=low (steps and their order are the point — do not skip or reorder) -->
 
 ## When to use
 Run when a company has no vision/mission set, or when the founder wants to revisit their identity. Also run proactively on first conversation if `query_company` shows empty vision/mission fields.
@@ -66,7 +68,7 @@ After identity is saved, ask:
 - *"What stage is [company] at? (idea / pre-revenue / revenue / growth)"*
 - *"How many people are on the team right now?"*
 
-If the founder answers, call `create_memory` with:
+If the founder answers, call `suggest_memory` with:
 - `layer: "identity"`
 - `content`: stage + team size summary
 - A note that this is a PENDING suggestion for their approval
@@ -78,5 +80,4 @@ Remind the user: *"I've suggested the stage and team context to Memory — it wi
 ## Rules
 - Never invent or suggest vision/mission text without asking Step 2-3 first.
 - `update_company_identity` always requires the confirm gate (Step 5). Do not skip it.
-- `create_memory` creates a PENDING item — always tell the user it needs their approval.
 - Do NOT call `update_memory` on any item during this skill — only create suggestions.

@@ -65,6 +65,30 @@
       "file": "skills/discussion-facilitation.md",
       "category": "commander",
       "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-daily-triage",
+      "name": "Daily Triage",
+      "description": "Role-aware status and prioritization sweep. Surfaces what needs a human — open approvals, blockers, at-risk goals — ranked, without changing anything.",
+      "file": "skills/daily-triage.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-review-agent-output",
+      "name": "Review Agent Output",
+      "description": "Check an agent's deliverable against a task's acceptance criteria and decide whether to approve it or send it back for revision.",
+      "file": "skills/review-agent-output.md",
+      "category": "commander",
+      "tags": ["official"]
+    },
+    {
+      "id": "skill:aoa-curated/aoa-delegate-handoff",
+      "name": "Delegate & Handoff",
+      "description": "The planning-to-execution bridge. Pick the right agent by workload and fit, write a task spec with clear acceptance criteria, set dependencies, and dispatch — with confirmation before every write.",
+      "file": "skills/delegate-handoff.md",
+      "category": "commander",
+      "tags": ["official"]
     }
   ]
 }
