@@ -37,14 +37,25 @@ if (!existsSync(MANIFEST_PATH)) {
 const manifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf-8")) as {
   tools: Array<{ name: string; surface: string }>;
 };
-// Commander-surface names are the authored/validated flavor (scope §2 decision 2)
-// for skill/persona prose. MCP-surface names are ALSO included in the allowlist
-// because commander/TOOLS.mcp.md (the generated MCP-flavor cheat-sheet, Task 10)
-// legitimately documents raw MCP tool names (e.g. `ask_founder`, `use_skill`) —
-// those are real, not phantoms, so they must not be flagged as "unknown". This
-// does not weaken phantom detection: BANNED_TOOLS is checked independently of
-// allowlist membership, so a genuinely wrong/removed name is still flagged.
-const VALID_TOOLS = new Set(manifest.tools.map((t) => t.name));
+// Two allowlists, scoped by surface:
+//   - COMMANDER_TOOLS: Commander-surface-only names. Authored skill/persona
+//     prose (skills/*.md, commander/AGENTS.md, SOUL.md, HEARTBEAT.md,
+//     model-overlays/*.md) must only reference tools actually callable from
+//     the Commander surface — an MCP-only name (e.g. `ask_founder`) in that
+//     prose is a real bug, not a false positive, so it must be flagged.
+//   - ALL_TOOLS: both surfaces combined. Reserved for the generated
+//     commander/TOOLS.mcp.md cheat-sheet (Task 10), which legitimately
+//     documents raw MCP tool names — those are real, not phantoms, and must
+//     not be flagged as "unknown" there.
+// BANNED_TOOLS is checked independently of allowlist membership either way,
+// so a genuinely wrong/removed name is still flagged regardless of surface.
+const COMMANDER_TOOLS = new Set(
+  manifest.tools.filter((t) => t.surface === "commander").map((t) => t.name),
+);
+const ALL_TOOLS = new Set(manifest.tools.map((t) => t.name));
+
+// The one generated file that legitimately documents MCP-only tool names.
+const MCP_DOC_PATH = join("commander", "TOOLS.mcp.md");
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Known wrong/banned tool names that should never appear in skill files.
@@ -105,7 +116,7 @@ interface LintError {
   suggestion?: string;
 }
 
-function scanFile(filePath: string): LintError[] {
+function scanFile(filePath: string, validTools: Set<string>): LintError[] {
   const content = readFileSync(filePath, "utf-8");
   const lines = content.split("\n");
   const errors: LintError[] = [];
@@ -171,7 +182,7 @@ function scanFile(filePath: string): LintError[] {
             suggestion: BANNED_TOOLS.get(checkName),
           });
         }
-      } else if (!VALID_TOOLS.has(checkName) && checkName.includes("_")) {
+      } else if (!validTools.has(checkName) && checkName.includes("_")) {
         // Only flag snake_case names — prose words rarely use underscores
         errors.push({
           file: filePath,
@@ -223,7 +234,11 @@ if (allFiles.length === 0) {
 
 const allErrors: LintError[] = [];
 for (const file of allFiles) {
-  allErrors.push(...scanFile(file));
+  // The generated MCP-flavor cheat-sheet legitimately documents raw MCP tool
+  // names; every other authored/generated file (skills, commander personas,
+  // model overlays) must stick to Commander-surface names.
+  const validTools = file.endsWith(MCP_DOC_PATH) ? ALL_TOOLS : COMMANDER_TOOLS;
+  allErrors.push(...scanFile(file, validTools));
 }
 
 if (allErrors.length === 0) {
