@@ -24,7 +24,7 @@
       "name": "agent.dispatch",
       "surface": "commander",
       "category": "coordination",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Dispatch another AoA agent by inserting a wakeup row. Does NOT call heartbeat directly — the dispatcher's drain loop picks it up. Respects hop-count cap (max 3) and dedupes within a single thread context.",
       "mcpAlias": null
@@ -62,14 +62,14 @@
       "category": "action",
       "readWrite": "write",
       "requiredRole": "team_lead",
-      "description": "Assign a task to an agent or user.",
+      "description": "Assign a task to an agent or human. Assignee means who does the task; responsible human ownership is separate.",
       "mcpAlias": null
     },
     {
       "name": "attach_task_artifact",
       "surface": "commander",
       "category": "coordination",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Attach your work product to a task as a deliverable: creates a new artifact (document, code, report, etc.) authored by you, links it to the task, and records it in the task's output index. Use this to hand back the result of your work.",
       "mcpAlias": null
@@ -134,7 +134,7 @@
       "category": "action",
       "readWrite": "write",
       "requiredRole": "team_lead",
-      "description": "Create a new task with title, optional description, priority, department, goal, and assignee.",
+      "description": "Create a new task with title, optional description, priority, department, goal, assignee, and responsible human. Assignee means who does the task; responsible human owns the outcome.",
       "mcpAlias": null
     },
     {
@@ -186,7 +186,7 @@
       "name": "extract_from_content",
       "surface": "commander",
       "category": "discussion",
-      "readWrite": "write",
+      "readWrite": "read",
       "requiredRole": "founder",
       "description": "Trigger extraction of tasks and memory items from a discussion entry.",
       "mcpAlias": null
@@ -216,6 +216,15 @@
       "readWrite": "read",
       "requiredRole": "team_member",
       "description": "Extract reference-type memory candidates from a thread (filtered subset of extract_memory_candidates).",
+      "mcpAlias": null
+    },
+    {
+      "name": "find_humans",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "team_member",
+      "description": "Find company humans by profile, role, responsibility, and capability documents. Read-only; use before routing or escalating work.",
       "mcpAlias": null
     },
     {
@@ -249,7 +258,7 @@
       "name": "forget_working_context",
       "surface": "commander",
       "category": "memory",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Archive temporary scoped Commander working context.",
       "mcpAlias": null
@@ -287,7 +296,7 @@
       "category": "query",
       "readWrite": "read",
       "requiredRole": "team_member",
-      "description": "Read the full context of a single task (your assigned task): identifier, title, description, status, priority, the source discussion thread, the assigned agent, and execution workspace. Use this to understand what you have been asked to do before starting work.",
+      "description": "Read the full context of a single task (your assigned task): identifier, title, description, status, priority, source discussion thread, assignee, responsible human owner, and execution workspace. Assignee means who does the task; responsible human owns the outcome.",
       "mcpAlias": null
     },
     {
@@ -312,7 +321,7 @@
       "name": "hub.updateCurationSummary",
       "surface": "commander",
       "category": "coordination",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Write a bounded Steward curation summary or explanation for a hub item. This only updates display curation metadata and never resolves, archives, approves, rejects, or changes source-side state.",
       "mcpAlias": null
@@ -366,7 +375,7 @@
       "name": "notify_owner",
       "surface": "commander",
       "category": "coordination",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Send a notification to the thread owner. Use when the crew needs human attention or approval.",
       "mcpAlias": null
@@ -384,7 +393,7 @@
       "name": "post_task_comment",
       "surface": "commander",
       "category": "coordination",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Post a comment back onto a task (typically your assigned task) — for example a progress note, a summary of what you did, or a question for the founder. The comment is recorded as authored by you.",
       "mcpAlias": null
@@ -411,7 +420,7 @@
       "name": "propose_memory_from_thread",
       "surface": "commander",
       "category": "memory",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Propose a memory item (status='pending', founder approves) seeded from a thread. Inherits visibility + scope from the source thread. Private threads may only propose working or active_context layers.",
       "mcpAlias": null
@@ -507,6 +516,24 @@
       "mcpAlias": null
     },
     {
+      "name": "query_human_context",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "team_member",
+      "description": "Read a company human's operational context bundle by user id, or resolve a natural-language query to the right human when there is exactly one match. Intended for Commander orchestration.",
+      "mcpAlias": null
+    },
+    {
+      "name": "query_humans",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "team_member",
+      "description": "List company humans from the team roster. Use for broad questions like who is in this org, who is on the team, or which humans exist.",
+      "mcpAlias": null
+    },
+    {
       "name": "query_memory",
       "surface": "commander",
       "category": "memory",
@@ -522,6 +549,15 @@
       "readWrite": "read",
       "requiredRole": "team_member",
       "description": "List and filter tasks. Returns tasks matching the given filters.",
+      "mcpAlias": null
+    },
+    {
+      "name": "query_team_roster",
+      "surface": "commander",
+      "category": "query",
+      "readWrite": "read",
+      "requiredRole": "team_member",
+      "description": "Read the unified company team roster and hierarchy across humans and org agents. Use for broad questions like who is on the team, who reports to whom, org chart, or humans and agents together.",
       "mcpAlias": null
     },
     {
@@ -546,7 +582,7 @@
       "name": "remember_working_context",
       "surface": "commander",
       "category": "memory",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Remember temporary scoped Commander working context for the current project, goal, task, or conversation.",
       "mcpAlias": null
@@ -564,7 +600,7 @@
       "name": "search_discussions",
       "surface": "commander",
       "category": "discussion",
-      "readWrite": "write",
+      "readWrite": "read",
       "requiredRole": "team_member",
       "description": "Search discussions by title.",
       "mcpAlias": null
@@ -573,7 +609,7 @@
       "name": "set_task_status",
       "surface": "commander",
       "category": "coordination",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Move your own assigned task forward to a new status (for example from in_progress to in_review, or to done). Whether a transition is allowed depends on your autonomy level — moving a task to review requires at least Assist, and completing it requires Drive. Use this when you have finished a unit of work and want to hand the task to the next stage.",
       "mcpAlias": null
@@ -691,15 +727,15 @@
       "surface": "commander",
       "category": "action",
       "readWrite": "write",
-      "requiredRole": "team_member",
-      "description": "Update an existing task's title, status, or priority.",
+      "requiredRole": "team_lead",
+      "description": "Update an existing task's title, status, priority, or responsible human. Use assign_task for assignee reassignment.",
       "mcpAlias": null
     },
     {
       "name": "update_working_context",
       "surface": "commander",
       "category": "memory",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Update temporary scoped Commander working context.",
       "mcpAlias": null
@@ -726,7 +762,7 @@
       "name": "write_memory",
       "surface": "commander",
       "category": "memory",
-      "readWrite": "read",
+      "readWrite": "write",
       "requiredRole": "team_member",
       "description": "Create a memory item (status='pending', founder approves per Critical Rule #6) and enqueue it for RAG indexing. Use for capturing important knowledge discovered during task execution that should be reviewed and promoted to company memory. For temporary working notes scoped only to this agent, prefer the MCP memory.retain tool with scopeToSelf=true and layer=working.",
       "mcpAlias": null
@@ -953,7 +989,7 @@
       "category": "read",
       "readWrite": "read",
       "requiredRole": null,
-      "description": "List tasks in the caller's company with RBAC scoping. Supports filters: status, projectId, assigneeAgentId, assigneeUserId, touchedByUserId, unreadForUserId, labelId, q",
+      "description": "List tasks in the caller's company with RBAC scoping. Supports filters: status, projectId, assigneeAgentId, assigneeUserId, responsibleUserId, touchedByUserId, unreadForUserId, labelId, q",
       "mcpAlias": null
     },
     {

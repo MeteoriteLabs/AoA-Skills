@@ -30,7 +30,7 @@
 | `list-task-comments` | read | read | List comments on a task (RBAC scoped) |
 | `list-task-document-revisions` | read | document | List all immutable revisions of the task's document artifact, ordered ascending by version number |
 | `list-task-documents` | read | document | List document artifacts attached to a task (0 or 1 — AoA has 1:1 task↔artifact) |
-| `list-tasks` | read | read | List tasks in the caller's company with RBAC scoping. Supports filters: status, projectId, assigneeAgentId, assigneeUserId, touchedByUserId, unreadForUserId, labelId, q |
+| `list-tasks` | read | read | List tasks in the caller's company with RBAC scoping. Supports filters: status, projectId, assigneeAgentId, assigneeUserId, responsibleUserId, touchedByUserId, unreadForUserId, labelId, q |
 | `me` | read | read | Return the authenticated caller's identity and role |
 | `memory.get` | read | read | Fetch a single approved memory item by id. Returns 404 when the item is outside the caller's RBAC scope. |
 | `memory.retain` | write | write | Persist an observation to memory. When called by an agent actor with scopeToSelf=true AND layer="working", the item is auto-approved into that agent's personal working-memory bucket. Self-scoped retains targeting identity/domain/active_context — and all non-agent writes — instead create a pending item awaiting founder review (Critical Rule #6: only the founder approves identity/domain). |

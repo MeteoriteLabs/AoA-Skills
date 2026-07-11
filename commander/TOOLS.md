@@ -2,7 +2,7 @@
 
 <!-- GENERATED — DO NOT EDIT. Run `pnpm gen:tools:md`. Source: packages/shared/src/generated/tools.json -->
 
-The 81 tools below are your complete set, generated from the live tool registry. Only call tools in this list; no other tool names exist.
+The 85 tools below are your complete set, generated from the live tool registry. Only call tools in this list; no other tool names exist.
 
 **Tool naming convention.** Your AoA tools are exposed by the AoA MCP bridge with the namespace prefix `mcp__aoa__`. Inside this file the tools are written without the prefix for readability (e.g. `query_tasks`); when you invoke a tool call the prefixed form (`mcp__aoa__query_tasks`).
 
@@ -10,11 +10,12 @@ The 81 tools below are your complete set, generated from the live tool registry.
 
 | Tool | R/W | Min role | What it does |
 |------|-----|----------|--------------|
+| `find_humans` | read | team_member | Find company humans by profile, role, responsibility, and capability documents. Read-only; use before routing or escalating work. |
 | `find_similar_threads` | read | team_member | Find threads similar to a text query via embedding cosine similarity (HNSW). |
 | `get_approval` | read | founder | Read one approval by id: its type, status, payload, and requester. Use to inspect a specific pending decision before acting on it. |
 | `get_approval_tasks` | read | founder | List the tasks an approval is gating (what unblocks if it is approved). |
 | `get_heartbeat_context` | read | team_member | Read a task plus its 10 most recent comments — including the auto-generated run-summary an agent posts after each run (outcome, duration, cost, files touched). Use to see what an agent actually did on a task. |
-| `get_task` | read | team_member | Read the full context of a single task (your assigned task): identifier, title, description, status, priority, the source discussion thread, the assigned agent, and execution workspace. Use this to understand what you have been asked to do before starting work. |
+| `get_task` | read | team_member | Read the full context of a single task (your assigned task): identifier, title, description, status, priority, source discussion thread, assignee, responsible human owner, and execution workspace. Assignee means who does the task; responsible human owns the outcome. |
 | `get_thread_summary` | read | team_member | Return a thread's summary, intent, phase, and crew participants. |
 | `list_approval_comments` | read | founder | List the discussion/comments on an approval (context for the decision). |
 | `list_approvals` | read | founder | List the company's approval requests (governance decisions awaiting a call), newest first. Optional filters: status (pending\|approved\|rejected\|revision_requested\|…), type. Use when asked what needs approval / what is waiting on the founder. |
@@ -28,7 +29,10 @@ The 81 tools below are your complete set, generated from the live tool registry.
 | `query_departments` | read | team_member | List all departments. |
 | `query_extracted_items` | read | team_member | List extracted items from a thread (decisions, tasks, insights, references, etc). |
 | `query_goals` | read | team_member | List goals with optional status filter. |
+| `query_human_context` | read | team_member | Read a company human's operational context bundle by user id, or resolve a natural-language query to the right human when there is exactly one match. Intended for Commander orchestration. |
+| `query_humans` | read | team_member | List company humans from the team roster. Use for broad questions like who is in this org, who is on the team, or which humans exist. |
 | `query_tasks` | read | team_member | List and filter tasks. Returns tasks matching the given filters. |
+| `query_team_roster` | read | team_member | Read the unified company team roster and hierarchy across humans and org agents. Use for broad questions like who is on the team, who reports to whom, org chart, or humans and agents together. |
 | `query_threads` | read | team_member | List threads (discussions) in this company. Optionally filter by phase or scope. |
 | `thread.listEntries` | read | team_member | Read entries from a thread in chronological order (capped at 200). |
 | `use_skill` | read | team_member | Load a skill's full instructions into context. Call this before applying any skill. The skill content will be available for the rest of this conversation. |
@@ -39,14 +43,14 @@ The 81 tools below are your complete set, generated from the live tool registry.
 |------|-----|----------|--------------|
 | `advance_phase` | write | team_member | Advance a thread to the next phase. Requires autonomy level ≥ 2. |
 | `approval_decision` | write | founder | Decide an approval: approve, reject, request revision, or resubmit. Founder-only, and always confirmed before it runs (irreversible governance action). |
-| `assign_task` | write | team_lead | Assign a task to an agent or user. |
+| `assign_task` | write | team_lead | Assign a task to an agent or human. Assignee means who does the task; responsible human ownership is separate. |
 | `attach_to_thread` | write | team_member | Move a thread_inbox_items entry to a real thread as a new discussion entry. |
 | `create_agent` | write | founder | Create a new worker agent. Founder-only. |
 | `create_artifact` | write | team_member | Create a new artifact (document, code, report, etc.) and optionally link it to a thread entry. |
 | `create_artifact_version` | write | team_member | Create a new version of an existing artifact (Engineer iteration loop). |
 | `create_department` | write | founder | Create a new department. Founder-only. |
 | `create_goal` | write | team_lead | Create a new goal with optional department scope. |
-| `create_task` | write | team_lead | Create a new task with title, optional description, priority, department, goal, and assignee. |
+| `create_task` | write | team_lead | Create a new task with title, optional description, priority, department, goal, assignee, and responsible human. Assignee means who does the task; responsible human owns the outcome. |
 | `defer_inbox_to_human` | write | team_member | Finalize an inbound item you are UNSURE about: leave it in the Inbox for the founder to triage. Call this instead of returning silently when no thread is a confident home and a new thread isn't clearly warranted. |
 | `delegate_to_subagent` | write | founder | Delegate a task to a named AoA sub-agent by enqueuing a wakeup request. The sub-agent will be triggered asynchronously by the AoA dispatcher. |
 | `promote_inbox_to_thread` | write | team_member | Create a new thread from an inbound inbox item. At full_auto dial: auto-creates the thread. At auto_attach/suggest dial: records a 'suggest_new' decision surfaced to the founder. |
@@ -59,7 +63,7 @@ The 81 tools below are your complete set, generated from the live tool registry.
 | `thread.updateSummary` | write | team_member | Update a thread's summary text + routing terms, then queue embedding regeneration. |
 | `update_agent` | write | founder | Update agent configuration. Founder-only. |
 | `update_company_identity` | write | founder | Update the company's vision and/or mission statement. Only call this after the user has reviewed and approved the new text. Gated to founders only. |
-| `update_task` | write | team_member | Update an existing task's title, status, or priority. |
+| `update_task` | write | team_lead | Update an existing task's title, status, priority, or responsible human. Use assign_task for assignee reassignment. |
 | `wakeup_agent` | write | team_lead | Trigger an agent's heartbeat to start working. |
 
 ## Memory Tools
@@ -74,23 +78,23 @@ The 81 tools below are your complete set, generated from the live tool registry.
 | `extract_references` | read | team_member | Extract reference-type memory candidates from a thread (filtered subset of extract_memory_candidates). |
 | `find_similar_memory` | read | team_member | Find semantically similar memory items using vector search. |
 | `find_similar_memory_hnsw` | read | team_member | Find existing memory items semantically similar to a query via direct HNSW cosine search. |
-| `forget_working_context` | read | team_member | Archive temporary scoped Commander working context. |
-| `propose_memory_from_thread` | read | team_member | Propose a memory item (status='pending', founder approves) seeded from a thread. Inherits visibility + scope from the source thread. Private threads may only propose working or active_context layers. |
+| `forget_working_context` | write | team_member | Archive temporary scoped Commander working context. |
+| `propose_memory_from_thread` | write | team_member | Propose a memory item (status='pending', founder approves) seeded from a thread. Inherits visibility + scope from the source thread. Private threads may only propose working or active_context layers. |
 | `query_memory` | read | team_member | Search memory items with optional layer and text filters. |
-| `remember_working_context` | read | team_member | Remember temporary scoped Commander working context for the current project, goal, task, or conversation. |
+| `remember_working_context` | write | team_member | Remember temporary scoped Commander working context for the current project, goal, task, or conversation. |
 | `suggest_memory` | write | team_lead | Propose a new memory item for founder approval (status: pending). |
 | `update_memory` | write | team_lead | Update an existing memory item's content or layer. |
-| `update_working_context` | read | team_member | Update temporary scoped Commander working context. |
-| `write_memory` | read | team_member | Create a memory item (status='pending', founder approves per Critical Rule #6) and enqueue it for RAG indexing. Use for capturing important knowledge discovered during task execution that should be reviewed and promoted to company memory. For temporary working notes scoped only to this agent, prefer the MCP memory.retain tool with scopeToSelf=true and layer=working. |
+| `update_working_context` | write | team_member | Update temporary scoped Commander working context. |
+| `write_memory` | write | team_member | Create a memory item (status='pending', founder approves per Critical Rule #6) and enqueue it for RAG indexing. Use for capturing important knowledge discovered during task execution that should be reviewed and promoted to company memory. For temporary working notes scoped only to this agent, prefer the MCP memory.retain tool with scopeToSelf=true and layer=working. |
 
 ## Discussion Tools
 
 | Tool | R/W | Min role | What it does |
 |------|-----|----------|--------------|
-| `extract_from_content` | write | founder | Trigger extraction of tasks and memory items from a discussion entry. |
+| `extract_from_content` | read | founder | Trigger extraction of tasks and memory items from a discussion entry. |
 | `link_discussion_to_project` | write | team_lead | Scope a discussion to a project, department, or goal. |
 | `post_entry` | write | team_member | Post a message to a thread as this agent. Use for crew coordination, summaries, and @mentions. |
-| `search_discussions` | write | team_member | Search discussions by title. |
+| `search_discussions` | read | team_member | Search discussions by title. |
 | `submit_extracted_items` | write | founder | Persist structured extracted items (decisions, tasks, insights, etc.) for a discussion entry and mark the entry's extraction as completed. Called by the discussion-extraction agent to write its results. |
 
 ## Workflow Tools
@@ -111,14 +115,14 @@ The 81 tools below are your complete set, generated from the live tool registry.
 
 | Tool | R/W | Min role | What it does |
 |------|-----|----------|--------------|
-| `agent.dispatch` | read | team_member | Dispatch another AoA agent by inserting a wakeup row. Does NOT call heartbeat directly — the dispatcher's drain loop picks it up. Respects hop-count cap (max 3) and dedupes within a single thread context. |
-| `attach_task_artifact` | read | team_member | Attach your work product to a task as a deliverable: creates a new artifact (document, code, report, etc.) authored by you, links it to the task, and records it in the task's output index. Use this to hand back the result of your work. |
+| `agent.dispatch` | write | team_member | Dispatch another AoA agent by inserting a wakeup row. Does NOT call heartbeat directly — the dispatcher's drain loop picks it up. Respects hop-count cap (max 3) and dedupes within a single thread context. |
+| `attach_task_artifact` | write | team_member | Attach your work product to a task as a deliverable: creates a new artifact (document, code, report, etc.) authored by you, links it to the task, and records it in the task's output index. Use this to hand back the result of your work. |
 | `hub.readCurationContext` | read | team_member | Read bounded, redacted hub item context for Steward curation. This returns hub envelopes and source pointers only; it never reads raw source bodies or mutates lifecycle state. |
-| `hub.updateCurationSummary` | read | team_member | Write a bounded Steward curation summary or explanation for a hub item. This only updates display curation metadata and never resolves, archives, approves, rejects, or changes source-side state. |
-| `notify_owner` | read | team_member | Send a notification to the thread owner. Use when the crew needs human attention or approval. |
-| `post_task_comment` | read | team_member | Post a comment back onto a task (typically your assigned task) — for example a progress note, a summary of what you did, or a question for the founder. The comment is recorded as authored by you. |
+| `hub.updateCurationSummary` | write | team_member | Write a bounded Steward curation summary or explanation for a hub item. This only updates display curation metadata and never resolves, archives, approves, rejects, or changes source-side state. |
+| `notify_owner` | write | team_member | Send a notification to the thread owner. Use when the crew needs human attention or approval. |
+| `post_task_comment` | write | team_member | Post a comment back onto a task (typically your assigned task) — for example a progress note, a summary of what you did, or a question for the founder. The comment is recorded as authored by you. |
 | `query_dependency_chain` | read | team_member | Analyze task dependency chain — find what blocks a task or what it blocks. |
-| `set_task_status` | read | team_member | Move your own assigned task forward to a new status (for example from in_progress to in_review, or to done). Whether a transition is allowed depends on your autonomy level — moving a task to review requires at least Assist, and completing it requires Drive. Use this when you have finished a unit of work and want to hand the task to the next stage. |
+| `set_task_status` | write | team_member | Move your own assigned task forward to a new status (for example from in_progress to in_review, or to done). Whether a transition is allowed depends on your autonomy level — moving a task to review requires at least Assist, and completing it requires Drive. Use this when you have finished a unit of work and want to hand the task to the next stage. |
 
 ## Analysis Tools
 

@@ -23,10 +23,12 @@ Before answering any question about tasks, goals, agents, budget, or team activi
 |--------|-------------|
 | What tasks are open? | `query_tasks` |
 | What goals are active? | `query_goals` |
-| Who is on the team? | `query_agents` + `query_departments` |
+| Who is on the team? Who reports to whom? | `query_team_roster` |
 | What did we spend? | `query_budget` |
 | What happened recently? | `query_activity` |
 | What's our identity? | `query_company` |
+
+For broad team, org chart, roster, or reporting-line questions, call `query_team_roster` first. Use `query_humans` only for humans-only lists and `query_agents` only for agents-only lists.
 
 After gathering facts → synthesize → respond. This order is non-negotiable.
 
